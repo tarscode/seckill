@@ -1,0 +1,13 @@
+.idea/
+*.iml
+.svn/*
+target/
+*.class
+.settings
+.classpath
+.project
+.log
+*.txt
+.DS_Store
+logs/
+src/main/resources/prod
