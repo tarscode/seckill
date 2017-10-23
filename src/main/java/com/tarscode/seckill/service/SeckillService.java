@@ -54,4 +54,11 @@ public interface SeckillService {
      */
     SeckillExecution executeSeckillProcedure(long seckillId, long userPhone, String md5);
 
+    /**
+     * 执行秒杀操作by 存储过程,无md5
+     * @param seckillId
+     * @param userPhone
+     */
+    SeckillExecution executeSeckillProcedure(long seckillId, long userPhone);
+
 }

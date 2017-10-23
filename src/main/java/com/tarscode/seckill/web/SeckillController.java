@@ -94,6 +94,34 @@ public class SeckillController {
         }
     }
 
+    @RequestMapping(value = "/{seckillId}/execution",
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public SeckillResult<SeckillExecution> executeWithoutMd5(@PathVariable("seckillId") Long seckillId,
+                                                   @CookieValue(value = "killPhone", required = false) Long phone) {
+        //springmvc valid
+        if (phone == null) {
+            return new SeckillResult<SeckillExecution>(false, "未注册");
+        }
+        SeckillResult<SeckillExecution> result;
+        try {
+            //存储过程调用.
+            SeckillExecution execution = seckillService.executeSeckillProcedure(seckillId, phone);
+            return new SeckillResult<SeckillExecution>(true,execution);
+        } catch (RepeatKillException e) {
+            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.REPEAT_KILL);
+            return new SeckillResult<SeckillExecution>(true,execution);
+        } catch (SeckillCloseException e) {
+            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.END);
+            return new SeckillResult<SeckillExecution>(true,execution);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.INNER_ERROR);
+            return new SeckillResult<SeckillExecution>(true,execution);
+        }
+    }
+
     @RequestMapping(value = "/time/now",method = RequestMethod.GET)
     @ResponseBody
     public SeckillResult<Long> time(){
