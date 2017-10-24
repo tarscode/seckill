@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
+
+    <property name="PROD_HOME" value="/home/logs/seckill"/>
+    <property name="DEV_HOME" value="/Users/liuyang/IdeaProjects/seckill/logs"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are  by default assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
@@ -9,18 +13,12 @@
     </appender>
 
     <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
-    <appender name="file"
+    <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
-        <!--
-        <File>/home/logs/seckill.log</File>
-        -->
-        <File>/Users/liuyang/IdeaProjects/seckill-1/logs/seckill.log</File>
+        <File>${DEV_HOME}/seckill.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--
-            <FileNamePattern>/home/logs/seckill-%d{yyyy-MM-dd}.log</FileNamePattern>
-            -->
-            <FileNamePattern>/Users/liuyang/IdeaProjects/seckill-1/logs/seckill-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${DEV_HOME}/seckill-%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>10</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -28,12 +26,12 @@
             </TimeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n
-            </pattern>
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
         </layout>
     </appender>
 
+
     <root level="debug">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>
