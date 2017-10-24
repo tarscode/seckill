@@ -21,8 +21,8 @@ public class WebHandlerInterceptor implements HandlerInterceptor {
         request.setAttribute("startTime", startTime);
         if (handler instanceof HandlerMethod) {
             HandlerMethod h = (HandlerMethod) handler;
-
-            log.info("preHandle success. Contoller:{}, Method:{}, Params:[{}], URI:{}.",h.getBean().getClass().getName(),h.getMethod().getName(),getParamString(request.getParameterMap()),request.getRequestURI());
+            request.setAttribute("method", h.getMethod().getName());
+            log.info("preHandle success. Contoller:{}, Method:{}, Params:[{}], URI:{}.", h.getBean().getClass().getName(), h.getMethod().getName(), getParamString(request.getParameterMap()), request.getRequestURI());
         }
         return true;
     }
@@ -30,11 +30,12 @@ public class WebHandlerInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
+        String method = (String) request.getAttribute("method");
         long startTime = (Long) request.getAttribute("startTime");
         long endTime = System.currentTimeMillis();
         long executeTime = endTime - startTime;
         if (handler instanceof HandlerMethod) {
-            log.info("postHandle success. CostTime: {}ms",executeTime);
+            log.info("postHandle success. Method: {}, CostTime: {}ms", method, executeTime);
         }
     }
 

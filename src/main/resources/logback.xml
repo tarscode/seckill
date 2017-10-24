@@ -15,10 +15,12 @@
     <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--
         <Encoding>UTF-8</Encoding>
-        <File>${DEV_HOME}/seckill.log</File>
+        -->
+        <File>${PROD_HOME}/seckill.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${DEV_HOME}/seckill-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${PROD_HOME}/seckill-%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>10</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -32,6 +34,7 @@
 
 
     <root level="debug">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
 </configuration>
